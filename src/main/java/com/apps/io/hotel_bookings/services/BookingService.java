@@ -20,8 +20,7 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     public Booking createOrUpdateBooking(Booking booking) throws RoomNotAvailableException {
-        List<Booking> allBookingsForRoom = bookingRepository.findByRoom(booking.getRoom());
-        List<Booking> allRunningBookingsForRoom = allBookingsForRoom.stream()
+        List<Booking> allRunningBookingsForRoom = booking.getRoom().getBookings().stream()
                 .filter(b -> b.isBookingActuated() == false && b.isPaymentCompleted() == false)
                 .collect(Collectors.toList());
         boolean isAvailable = Boolean.TRUE;
